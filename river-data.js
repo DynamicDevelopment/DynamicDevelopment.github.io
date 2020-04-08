@@ -95,8 +95,8 @@ $(document).ready(function() {
 }
         
 function clearForm() {
-    document.getElementById("basecurrency").value = "";
-    document.getElementById("convertcurrency").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("Date").value = "";
     document.getElementById("ajaxresult").value="";
 }
 
