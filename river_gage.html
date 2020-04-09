@@ -15,49 +15,41 @@
     </head>
 
     <body>
-    <form id="ValueForm" onsubmit="return false">
-    <div class="formcontainer">
-        <h1>River Level</h1>
-        <fieldset id="detail">
-            <br>
-        
-        <label class="formlabel">Location: </label>
-            <select name="selBase" id="location"                
-                    data-rule-required="true" data-msg-required="Location is Required">
-                <option value="">Select Location</option>
-                <option value="USD">Pruitt, AR</option>
-                <option value="EUR">Ponca, AR</option>
-                <option value="JPY">Boxley, AR</option>
-                <option value="GBP">Hasty, AR</option>
-                
-            </select>
-        <label for="selBase" class="error"></label>
-        <span id="selBaseError"></span>
-        <br>
-            
-        
-        <br>
-            
-        <label for="Date" class="formlabel">Date: </label>
-        <input  type="datetime-local" id="Date" name="Date"
-               data-rule-required="true"  data-msg-required="Date is Required">
-        <label for="Date" class="error" id="DateError"></label>
-        <br>
-            
-        
-        <br>
-            
-        <label for="ajaxresult" class="formlabel">Level: </label>
-        <span id="ajaxresult"></span>
-        <br>
-        
-        <input type="submit" value="Show Results" name="Show Results" onclick="calculate()">
-        <input type="submit" value="Clear Form" name="Clear Form" onclick="clearForm()">
-        
-        <canvas id="chartjs-0" width="600" height="600" style="display: block; height: 400px; width: 400px;"></canvas>
-        </fieldset>
-    </div>
+    <h1>USGS Water Services AJAX</h1>
+    <form id="form1" method="post" action="">
+
+        <label for="location0">Site Name</label>
+        <textarea name="location0" cols="25" rows="2" readonly="readonly" id="location0"></textarea>
+        <label for="stream0">Latest Streamflow in feet<sup>3</sup>/sec</label>
+        <input id="stream0" size="7" readonly="readonly" />
+        <br><br>
+
+        <label for="location1">Site Name</label>
+        <textarea name="location1" cols="25" rows="2" readonly="readonly" id="location1"></textarea>
+        <label for="stream1">Latest Streamflow in feet<sup>3</sup>/sec</label>
+        <input id="stream1" size="7" readonly="readonly" />
+        <br><br>
+
+        <label for="location2">Site Name</label>
+        <textarea name="sitedesc2" cols="25" rows="2" readonly="readonly" id="sitedesc2"></textarea>
+        <label for="stream2">Latest Streamflow in feet<sup>3</sup>/sec</label>
+        <input id="stream2" size="7" readonly="readonly" />
+        <br><br>
+
+        <label for="location3">Site Name</label>
+        <textarea name="location3" cols="25" rows="2" readonly="readonly" id="location3"></textarea>
+        <label for="stream3">Latest Streamflow in feet<sup>3</sup>/sec</label>
+        <input id="stream3" size="7" readonly="readonly" />
+        <br><br>
+
+        <p>
+            <input type="button" name="query" id="query" value="Get The Data" />
+            <input type="reset" name="reset" id="reset" value="Reset" />
+        </p>
+
+
     </form>
+
 
     
 
