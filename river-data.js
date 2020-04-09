@@ -97,6 +97,10 @@ $(document).ready(function() {
 function clearForm() {
     document.getElementById("location").value = "";
     document.getElementById("Date").value = "";
+	document.getElementById("location0").value = "";
+	document.getElementById("location1").value = "";
+	document.getElementById("location2").value = "";
+	document.getElementById("location3").value = "";
     document.getElementById("ajaxresult").value="";
 }
 
