@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html lang="en">   
+
+    <head>
+    <meta charset="utf-8">
+		<meta name="description" content="Buffalo River Cabin and Canoe Rental Company"/>
+		<meta name="author" content="Dynamic Development"/>
+    <title>Buffalo River Retreat</title>
+     
+
+<!--Google Font Links-->
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/additional-methods.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+      
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="main-style.css">
+</head>
+	   
+<body>
+
+  <nav class="navbar navbar-expand-sm sticky-top">
+  <div class="container">
+  <!-- Brand -->
+  <a class="navbar-brand" href="index.html"><img class="navbar-brand" alt ="logo" src="images/logo-mini.png"></a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="index.html">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="index.html#findus">Find us!</a>
+    </li>
+     <li class="nav-item">
+      <a class="nav-link" href="river_gage.html">River Levels</a>
+    </li>
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Reservations
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="cabin-rental.html">Cabin Rental</a>
+        <a class="dropdown-item" href="canoe-rental.html">Canoe Rental</a>
+        
+      </div>
+    </li>
+  </ul>
+  </div>
+</nav>
+
+
+<img id="header" src="images/headerimg.jpg" alt="Pretty River">
+
+<a name="top"></a>
+   
+			  
+
+<main>
+
+
+
+    <div class = "header"><h2>River Levels</h2></div>
+ <div class = "container chartBox"><canvas id="chartjs-0" width="420" height="400" style="display: block; height: 400px; width: 420px;"></canvas>
+    <canvas id="chartjs-1" width="420" height="400" style="display: block; height: 400px; width: 420px;"></canvas>
+    <canvas id="chartjs-2" width="420" height="400" style="display: block; height: 400px; width: 420px;"></canvas>
+    <canvas id="chartjs-3" width="420" height="400" style="display: block; height: 400px; width: 420px;"></canvas>
+ </div>
+    <script type="text/javascript">
+        var myURL = "https://waterservices.usgs.gov/nwis/iv/?format=json&indent=on&sites=07055646,07055660,07055680,07055780&period=P7D&parameterCd=00065&siteStatus=active";
+
+        /* AJAX Method  */
+        var myMethod = "GET";
+
+        /* Make sure the document is ready */
+        $(document).ready(function() {
+
+            /* Perform AJAX call - Note that the AJAX function 
+               does not have a selector */
+
+            $.ajax({
+                    method: myMethod,
+                    url: myURL
+                })
+
+                /* AJAX complete - result is in msg */
+                .done(function(msg) {
+
+                    /* Your code to process the result goes here */
+                    var dates = [];
+                    var values = [];
+
+                    /* fLen contains the length of the array (number of values) */
+                    fLen = msg.value.timeSeries[0].values[0].value.length
+                    for (i = 0; i < fLen; i++) {
+                        values[i] = msg.value.timeSeries[0].values[0].value[i].value
+                        dates[i] = msg.value.timeSeries[0].values[0].value[i].dateTime
+                    }
+                    var sitename = msg.value.timeSeries[0].sourceInfo.siteName
+                    var sitecode = msg.value.timeSeries[0].sourceInfo.siteCode[0].value
+                    var siteDescription = msg.value.timeSeries[0].variable.variableDescription
+
+                    var ctx = document.getElementById("chartjs-0");
+                    var myChart = new Chart(ctx, {
+                        "type": "line",
+                        "data": {
+                            "labels": dates,
+                            "datasets": [{
+                                "label": "Gauge Height", 
+                                "data": values,
+                                "fill": false,
+                                "borderColor": "#D9CBBF", 
+                                "lineTension": 0.3,
+                               
+                                
+                              
+                                
+                                
+                            }]
+                            
+                        },
+                        "options": {
+                            responsive: false,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: sitename + ' - PID: ' + sitecode,
+                                fontSize: 18
+                            },
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: {
+                                        displayFormats: {
+                                            day: 'MMM D'
+                                        }
+                                    }
+                                }],
+
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: siteDescription
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+
+                    var dates = [];
+                    var values = [];
+
+                    fLen = msg.value.timeSeries[1].values[0].value.length
+                    for (i = 0; i < fLen; i++) {
+                        values[i] = msg.value.timeSeries[1].values[0].value[i].value
+                        dates[i] = msg.value.timeSeries[1].values[0].value[i].dateTime
+                    }
+                    var sitename = msg.value.timeSeries[1].sourceInfo.siteName
+                    var sitecode = msg.value.timeSeries[1].sourceInfo.siteCode[0].value
+                    var siteDescription = msg.value.timeSeries[1].variable.variableDescription
+
+                    var ctx = document.getElementById("chartjs-1");
+                    var myChart = new Chart(ctx, {
+                        "type": "line",
+                        "data": {
+                            "labels": dates,
+                            "datasets": [{
+                                "label": "Gauge Height",
+                                "data": values,
+                                "fill": false,
+                                 "borderColor": "#D9CBBF", 
+                                "lineTension": 0.3
+                            }]
+                        },
+                        "options": {
+                            responsive: false,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: sitename + ' - PID: ' + sitecode,
+                                fontSize: 18
+                            },
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: {
+                                        displayFormats: {
+                                            day: 'MMM D'
+                                        }
+                                    }
+                                }],
+
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: siteDescription
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+
+                    var dates = [];
+                    var values = [];
+                
+                fLen = msg.value.timeSeries[2].values[0].value.length
+                    for (i = 0; i < fLen; i++) {
+                        values[i] = msg.value.timeSeries[2].values[0].value[i].value
+                        dates[i] = msg.value.timeSeries[2].values[0].value[i].dateTime
+                    }
+                    var sitename = msg.value.timeSeries[2].sourceInfo.siteName
+                    var sitecode = msg.value.timeSeries[2].sourceInfo.siteCode[0].value
+                    var siteDescription = msg.value.timeSeries[2].variable.variableDescription
+
+                    var ctx = document.getElementById("chartjs-2");
+                    var myChart = new Chart(ctx, {
+                        "type": "line",
+                        "data": {
+                            "labels": dates,
+                            "datasets": [{
+                                "label": "Gauge Height",
+                                "data": values,
+                                "fill": false,
+                                "borderColor": "#D9CBBF", 
+                                "lineTension": 0.3
+                            }]
+                        },
+                        "options": {
+                            responsive: false,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: sitename + ' - PID: ' + sitecode,
+                                fontSize: 18
+                            },
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: {
+                                        displayFormats: {
+                                            day: 'MMM D'
+                                        }
+                                    }
+                                }],
+
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: siteDescription
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+
+                    var dates = [];
+                    var values = [];
+                
+                fLen = msg.value.timeSeries[3].values[0].value.length
+                    for (i = 0; i < fLen; i++) {
+                        values[i] = msg.value.timeSeries[3].values[0].value[i].value
+                        dates[i] = msg.value.timeSeries[3].values[0].value[i].dateTime
+                    }
+                    var sitename = msg.value.timeSeries[3].sourceInfo.siteName
+                    var sitecode = msg.value.timeSeries[3].sourceInfo.siteCode[0].value
+                    var siteDescription = msg.value.timeSeries[3].variable.variableDescription
+
+                    var ctx = document.getElementById("chartjs-3");
+                    var myChart = new Chart(ctx, {
+                        "type": "line",
+                        "data": {
+                            "labels": dates,
+                            "datasets": [{
+                                "label": "Gauge Height",
+                                "data": values,
+                                "fill": false,
+                                 "borderColor": "#D9CBBF", 
+                                "lineTension": 0.3
+                            }]
+                        },
+                        "options": {
+                            responsive: false,
+                            maintainAspectRatio: true,
+                            title: {
+                                display: true,
+                                text: sitename + ' - PID: ' + sitecode,
+                                fontSize: 18
+                            },
+                            scales: {
+                                xAxes: [{
+                                    type: 'time',
+                                    time: {
+                                        displayFormats: {
+                                            day: 'MMM D'
+                                        }
+                                    }
+                                }],
+
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: siteDescription
+                                    }
+                                }]
+
+                            }
+                        }
+                    });
+                });
+        });
+
+    </script>
+
+    </main>
+
+    </body>
+
+ <div class="mini-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="copyright-text">
+             <div class="widget-about">
+              <img src="images/logo-mini.png" alt="Buffalo River Retreat Logo" class="img-fluid">
+          
+                <li>
+                  <a href="mailto:thomas@buffaloriverretreat.com">thomas@buffaloriverretreat.com</a>
+                </li>
+                <li> © 2020 Dynamic Development</a>. All rights reserved. Created by Dynamic Development LLC. </li>
+              </ul>
+            </div>
+            
+          </div>
+
+          <div class="go_top"><style>
+            .go_top {
+              text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.530);
+            } </style>
+            <a href="#top" class="icon-arrow-up">Back to Top</a>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+</footer>
+
+
+</html>
